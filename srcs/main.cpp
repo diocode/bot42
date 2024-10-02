@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: juno <juno@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/02 10:57:28 by juno              #+#    #+#             */
+/*   Updated: 2024/10/02 10:59:37 by juno             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libs/skynet.hpp"
 
 // Callback to handle data received by libcurl
@@ -6,7 +18,7 @@ static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* use
     struct Memory* mem = (struct Memory*)userp;
     char* ptr = (char*)realloc(mem->response, mem->size + totalSize + 1);
     if (ptr == NULL) {
-        std::cerr << "Not enough memory (realloc returned NULL)\n";
+        std::cerr << "Error: realloc error\n";
         return 0;
     }
     mem->response = ptr;
