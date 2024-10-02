@@ -6,12 +6,12 @@
 /*   By: juno <juno@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:57:42 by juno              #+#    #+#             */
-/*   Updated: 2024/10/02 10:57:43 by juno             ###   ########.fr       */
+/*   Updated: 2024/10/02 12:07:54 by passunca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../libs/Pisciner.hpp"
+#include "../inc/Pisciner.hpp"
 
 Pisciner::Pisciner(){}
 

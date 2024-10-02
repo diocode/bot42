@@ -6,11 +6,11 @@
 /*   By: juno <juno@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:57:28 by juno              #+#    #+#             */
-/*   Updated: 2024/10/02 10:59:37 by juno             ###   ########.fr       */
+/*   Updated: 2024/10/02 12:07:36 by passunca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libs/skynet.hpp"
+#include "../inc/Pisciner.hpp"
 
 // Callback to handle data received by libcurl
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {

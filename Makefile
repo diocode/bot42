@@ -6,7 +6,7 @@
 #    By: passunca <passunca@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 12:06:12 by passunca          #+#    #+#              #
-#    Updated: 2024/10/02 12:06:47 by passunca         ###   ########.fr        #
+#    Updated: 2024/10/02 12:14:25 by passunca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ARG			=
 #                                     NAMES                                    #
 #==============================================================================#
 
-NAME = skynet
+NAME = PanopticTron
 
 ### Message Vars
 _SUCCESS 		= [$(GRN)SUCCESS$(D)]
@@ -65,7 +65,9 @@ CXXFLAGS	= -Wall -Wextra -Werror -std=c++98
 DFLAGS		= -g
 INC			= -I $(INC_PATH)
 
-LDFLAGS 	+= -L/usr/local/lib
+LDFLAGS 	+= -L/home/zedro/.local/Cellar/curl/8.9.0/include
+
+LDFLAGS 	+= -lcurl
 
 BUILD 		?= all
 ASAN_FLAGS	= -fsanitize=address
@@ -111,10 +113,6 @@ $(TEMP_PATH):
 	$(MKDIR_P) $(TEMP_PATH)
 	@echo "* $(YEL)Creating $(CYA)$(TEMP_PATH)$(YEL) folder:$(D) $(_SUCCESS)"
 	
-re: fclean all
-
-.PHONY: bonus clean fclean re help
-
 ##@ Test Rules 🧪
 
 ##@ Debug Rules 
@@ -206,6 +204,8 @@ help: 			## Display this help page
 			printf "\n=> %s\n", substr($$0, 5) } ' Makefile
 ## Tweaked from source:
 ### https://www.padok.fr/en/blog/beautiful-makefile-awk
+
+.PHONY: bonus clean fclean re help
 
 #==============================================================================#
 #                                  UTILS                                       #
