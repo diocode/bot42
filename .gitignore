@@ -1,0 +1,92 @@
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*/*.tar.gz
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+minishell
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+.temp/
+.build/
+lib/
+gdb.txt
+massif.*
+Minishell_test.py
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# Docs
+docs/
+.vscode/
+googletest/
+build/
+tests/boost
+tests/googletest	
+.cache/
+
+#LSP
+compile_commands.json
+
+# Test
+not_*
+42
+test
+$USER
+az
+zedr0
+a
+b
+c
+a.txt
+b.txt
+c.txt
+d.txt
+z.txt
+void_file
+passunca
+nopermission/
+nopermissiondir/
