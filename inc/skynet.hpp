@@ -6,7 +6,7 @@
 /*   By: juno <juno@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:57:33 by juno              #+#    #+#             */
-/*   Updated: 2024/10/02 10:57:34 by juno             ###   ########.fr       */
+/*   Updated: 2024/10/02 12:20:21 by juno             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,11 @@ struct Memory {
     char* response;
     size_t size;
 };
+
+/*============= FUNCTIONS ==============*/
+
+std::string extractAccessToken(const std::string& jsonResponse);
+std::string getAccessToken();
+
 
 #endif
