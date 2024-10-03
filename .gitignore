@@ -92,3 +92,4 @@ nopermission/
 nopermissiondir/
 venv/
 .venv/
+.env
