@@ -36,3 +36,11 @@ https://api.slack.com/methods
 ## Tools
 
 - https://httpie.io/docs/cli
+
+## POSTMAN
+
+GET working:
+- Create a [POST: {{base_url}}/oauth/token] using your client ID and secret to get your access token from the 42API;
+- Create a [GET: {{base_url}}/v2/users/{{id}}] and add in the 'token' field access token from the previous step;
+
+(check the screenshot for reference)

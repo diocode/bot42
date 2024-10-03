@@ -4,7 +4,7 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from pprint import pprint
 
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
-
+'''
 @app.message()
 def sendMessage(message, say, client):
 	pprint(message)
@@ -25,7 +25,13 @@ def sendReaction(event, say, client):
 	#pprint(event)
 	if event["reaction"] == "gandalf":
 		say(text="There you go again Pedro! :gandalf:", thread_ts=event["item"]["ts"])
-	
+'''	
+@app.message()
+def validateStudent(message, say):
+	#pprint(message)
+	if message["text"].lower() == "student":
+		say(f"<@{message['user']}>")
+
 
 if __name__ == "__main__":
     SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
