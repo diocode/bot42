@@ -39,8 +39,11 @@ https://api.slack.com/methods
 
 ## POSTMAN
 
-GET working:
 - Create a [POST: {{base_url}}/oauth/token] using your client ID and secret to get your access token from the 42API;
 - Create a [GET: {{base_url}}/v2/users/{{id}}] and add in the 'token' field access token from the previous step;
 
 (check the screenshot for reference)
+![Screenshot from 2024-10-03 16-36-11](https://github.com/user-attachments/assets/f58467d2-6738-4649-8b11-70bff729b596)
+![Screenshot from 2024-10-03 16-36-57](https://github.com/user-attachments/assets/a6457bd0-c346-4e90-a2d3-918a03afb229)
+
+
