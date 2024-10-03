@@ -90,3 +90,5 @@ void_file
 passunca
 nopermission/
 nopermissiondir/
+venv/
+.venv/
