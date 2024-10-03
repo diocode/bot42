@@ -1,4 +1,10 @@
-#LINKS
+# LINKS
+
+## Python Docs
+
+https://docs.python.org/3/library/venv.html
+
+## Slack Bolt API
 
 https://api.slack.com/apps
 <br/>
