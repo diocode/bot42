@@ -1,5 +1,12 @@
 # LINKS
 
+## Usage
+
+```sh
+python3 -m venv .venv
+pip install -r requirements.txt
+```
+
 ## Python Docs
 
 https://docs.python.org/3/library/venv.html

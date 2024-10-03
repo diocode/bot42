@@ -7,13 +7,13 @@ app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
 @app.message()
 def sendMessage(message, say, client):
-	#pprint(message)
+	pprint(message)
 	if message["text"] == "hello":
 		say(f"Hey there <@{message['user']}>!")
 
 	if message["text"] == ":gandalf:":
 		say(text="There you go again Pedro! :gandalf:", thread_ts=message["ts"])
-	
+
 		client.reactions_add(
 			channel=message["channel"],
 			name="gandalf",
