@@ -9,6 +9,8 @@ source .venv/bin/activate
 source .env
 
 pip install -r requirements.txt
+
+python3 app.py
 ```
 
 ## Python Docs
@@ -24,3 +26,9 @@ https://tools.slack.dev/bolt-python/getting-started
 https://pypi.org/project/slack-bolt/
 <br/>
 https://api.slack.com/methods
+
+## API KEYS
+
+- Go to https://api.slack.com/apps/ and get App Level Token
+
+- Go to OAuth & Permissions and get Bot Token

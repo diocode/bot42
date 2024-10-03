@@ -13,7 +13,7 @@ def sendMessage(message, say, client):
 
 	if message["text"] == ":gandalf:":
 		say(text="There you go again Pedro! :gandalf:", thread_ts=message["ts"])
-
+	
 		client.reactions_add(
 			channel=message["channel"],
 			name="gandalf",
