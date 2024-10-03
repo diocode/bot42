@@ -32,3 +32,7 @@ https://api.slack.com/methods
 - Go to https://api.slack.com/apps/ and get App Level Token
 
 - Go to OAuth & Permissions and get Bot Token
+
+## Tools
+
+- https://httpie.io/docs/cli
