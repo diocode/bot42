@@ -6,6 +6,14 @@ from requests_oauthlib import OAuth1Session
 import requests
 import json
 
+intra = OAuth1Session('client_key',
+    client_secret='client_secret',
+    resource_owner_key='INTRA_UID',
+    resource_owner_secret='INTRA_SECRET'
+)
+request_token = 'https://api.intra.42.fr/oauth/token'
+r = intra.post(request_token)
+
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
 def getAcessToken():
