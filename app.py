@@ -2,6 +2,7 @@ import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from pprint import pprint
+import requests
 
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 '''

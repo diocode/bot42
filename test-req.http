@@ -1,3 +1,3 @@
-GET / HTTP/1.1
-Host: developer.mozilla.org
+GET developer.mozilla.org
+HTTP/1.1
 Accept-Language: fr
