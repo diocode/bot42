@@ -35,7 +35,7 @@ https://api.slack.com/methods
 
 ## OAUTH for Python
 
-https://oauth.net/code/python/
+https://github.com/requests/requests-oauthlib
 
 ## Tools
 
