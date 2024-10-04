@@ -33,12 +33,17 @@ https://api.slack.com/methods
 
 - Go to OAuth & Permissions and get Bot Token
 
+## OAUTH for Python
+
+https://oauth.net/code/python/
+
 ## Tools
 
 - https://httpie.io/docs/cli
 
-## POSTMAN
 
+## POSTMAN
+        
 - Create a [POST: {{base_url}}/oauth/token] using your client ID and secret to get your access token from the 42API;
 - Create a [GET: {{base_url}}/v2/users/{{id}}] and add in the 'token' field access token from the previous step;
 
