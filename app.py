@@ -2,6 +2,7 @@ import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from pprint import pprint
+from requests_oauthlib import OAuth1Session
 import requests
 import json
 
