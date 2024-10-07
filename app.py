@@ -27,6 +27,18 @@ def get_42_api_token():
     else:
         raise Exception("Failed to obtain 42 API token")
 
+# Get student data
+def get_student_data(user):
+    token = get_42_api_token()
+    url = f"https://api.intra.42.fr/v2/users/{user}"
+    headers = {"Authorization": f"Bearer {token}"}
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
 # Initialize Slack app
 try:
     app = App(token=os.environ["SLACK_BOT_TOKEN"])
@@ -45,8 +57,14 @@ def student_grades(message, say):
     if message["text"].lower().startswith("_student"):
         try:
             user = message["text"].split(" ")[1]
+            student_data = get_student_data(user)
             if validate_student(user):
                 say("LOOKING FOR STUDENT GRADES...", thread_ts=message["ts"])
+                # name = student_data["name"]
+                # login = student_data["login"]
+                # level = student_data["cursus_users"][-1]["level"]
+                # projects = student_data["projects_users"]
+                # recent_projects = sorted(projects, key=lambda x: x["marked_at"] or "", reverse=True)[:3]
             else:
                 say("Invalid student", thread_ts=message["ts"])
         except IndexError:
