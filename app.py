@@ -9,50 +9,55 @@ from pprint import pprint
 import requests
 import json
 
-client_id='INTRA_UID'
-client_secret='INTRA_SECRET'
+# 42 API authentication
+def get_42_api_token():
+    client_id = 'INTRA_UID'
+    client_secret = 'INTRA_SECRET'
+    token_url = 'https://api.intra.42.fr/oauth/token'
+    
+    data = {
+        'grant_type': 'client_credentials',
+        'client_id': client_id,
+        'client_secret': client_secret
+    }
+    
+    response = requests.post(token_url, data=data)
+    if response.status_code == 200:
+        return response.json()['access_token']
+    else:
+        raise Exception("Failed to obtain 42 API token")
 
-auth = HTTPBasicAuth(client_id, client_secret)
-client = BackendApplicationClient(client_id=client_id)
-oauth = OAuth2Session(client=client)
-token = oauth.fetch_token(token_url='https://api.intra.42.fr/oauth/token', auth=auth)
+# Initialize Slack app
+try:
+    app = App(token=os.environ["SLACK_BOT_TOKEN"])
+except KeyError:
+    raise Exception("SLACK_BOT_TOKEN environment variable not set")
 
-app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
+def validate_student(user):
+    token = get_42_api_token()
+    url = f"https://api.intra.42.fr/v2/users/{user}"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(url, headers=headers)
+    return response.status_code == 200
 
-def refresh_token_if_expired():
-    if token.get('expires_at') and token['expires_at'] <= time.time():
-        new_token = oauth.refresh_token(token_url='https://api.intra.42.fr/oauth/token')
-        token.update(new_token)
-
-def validateStudent(message, say):
+@app.message("")
+def student_grades(message, say):
     if message["text"].lower().startswith("_student"):
         try:
             user = message["text"].split(" ")[1]
-            url = f"https://api.intra.42.fr/v2/users/{user}"
-            
-            # Refresh token if needed
-            refresh_token_if_expired()
-            
-            # Use the OAuth2Session to make the request
-            response = oauth.get(url)
-            
-            if response.status_code == 200:
-                return True
+            if validate_student(user):
+                say("LOOKING FOR STUDENT GRADES...", thread_ts=message["ts"])
             else:
-                raise ValueError
-        except (IndexError, ValueError) as e:
-            say("Invalid student", thread_ts=message["ts"])
-            return False
-
-@app.message("")
-def	studentGrades(message, say):
-	if not validateStudent(message, say):
-		return
-	say("LOOKING FOR STUDENT GRADES...", thread_ts=message["ts"])
-
+                say("Invalid student", thread_ts=message["ts"])
+        except IndexError:
+            say("Invalid command format. Use '_student <username>'", thread_ts=message["ts"])
 
 def main():
-    SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
+    try:
+        handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
+        handler.start()
+    except KeyError:
+        raise Exception("SLACK_APP_TOKEN environment variable not set")
 
 if __name__ == "__main__":
     main()
