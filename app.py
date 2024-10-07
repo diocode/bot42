@@ -47,5 +47,8 @@ def validateStudent(message, say):
 		response = requests.request("GET", url, headers=headers, data=payload)
 		print(response.text)
 
-if __name__ == "__main__":
+def main():
     SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
+
+if __name__ == "__main__":
+    main()
