@@ -60,22 +60,24 @@ def student_grades(message, say):
             student_data = get_student_data(user)
             if student_data:
                 say("LOOKING FOR STUDENT GRADES...", thread_ts=message["ts"])
-                name = student_data["name"]
+                first_name = student_data["first_name"]
+                last_name = student_data["last_name"]
                 login = student_data["login"]
                 level = student_data["cursus_users"][-1]["level"]
                 cursus = student_data["cursus_users"][-1]["cursus"]["name"]
                 projects = student_data["projects_users"]
                 recent_projects = sorted(projects, key=lambda x: x["marked_at"] or "", reverse=True)[:3]
-                projects_str = "\n".join([f"- {p['project']['name']}: {p['final_mark'] or 'In Progress'}" for p in recent_projects])
-                message = f"""
-                ## Student Information for {name} ({login})
+                # projects_str = "\n".join([f"- {p['project']['name']}: {p['final_mark'] or 'In Progress'}" for p in recent_projects])
+                ret = f"""
+                ## Student Information for {first_name} {last_name} ({login})
 
                 **Cursus:** {cursus}
                 **Current Level:** {level:.2f}
 
                 **Recent Projects:**
-                {projects_str}
+                # projects_str
                 """
+                say(ret, thread_ts=message["ts"])
             else:
                 say("Invalid student", thread_ts=message["ts"])
         except IndexError:
