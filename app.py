@@ -11,8 +11,8 @@ import json
 
 # 42 API authentication
 def get_42_api_token():
-    client_id = 'INTRA_UID'
-    client_secret = 'INTRA_SECRET'
+    client_id = os.getenv("INTRA_UID")
+    client_secret = os.getenv("INTRA_SECRET")
     token_url = 'https://api.intra.42.fr/oauth/token'
     
     data = {
