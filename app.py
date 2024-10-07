@@ -1,18 +1,20 @@
 import os
+from oauthlib.oauth2 import BackendApplicationClient
+from requests_oauthlib import OAuth2Session
+from requests.auth import HTTPBasicAuth
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from pprint import pprint
-from requests_oauthlib import OAuth1Session
 import requests
 import json
 
-intra = OAuth1Session('client_key',
-    client_secret='client_secret',
-    resource_owner_key='INTRA_UID',
-    resource_owner_secret='INTRA_SECRET'
-)
-request_token = 'https://api.intra.42.fr/oauth/token'
-r = intra.post(request_token)
+client_id='INTRA_UID'
+client_secret='INTRA_SECRET'
+
+auth = HTTPBasicAuth(client_id, client_secret)
+client = BackendApplicationClient(client_id=client_id)
+oauth = OAuth2Session(client=client)
+token = oauth.fetch_token(token_url='https://api.intra.42.fr/oauth/token', auth=auth)
 
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
