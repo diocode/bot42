@@ -18,6 +18,7 @@ oauth = OAuth2Session(client=client)
 token = oauth.fetch_token(token_url='https://api.intra.42.fr/oauth/token', auth=auth)
 
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
+
 def refresh_token_if_expired():
     if token.get('expires_at') and token['expires_at'] <= time.time():
         new_token = oauth.refresh_token(token_url='https://api.intra.42.fr/oauth/token')
