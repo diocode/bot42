@@ -29,6 +29,36 @@ def get_student_data(user):
     else:
         return None
 
+def get_piscine_data(campus, year, month):
+  token = get_42_api_token()
+  url = f"https://api.intra.42.fr/v2/campus/{campus}/users"
+  headers = {"Authorization": f"Bearer {token}"}
+  params = {
+    "filter[pool_year]": year,
+    "filter[pool_month]": month,
+    "page[size]": 50
+  }
+  piscine_data = []
+  page = 1
+
+  while True:
+      params["page[number]"] = page
+      response = requests.get(url, headers=headers, params=params)
+      
+      if response.status_code == 200:
+          data = response.json()
+          piscine_data.extend(data)
+          
+          if len(data) < params["page[size]"]:
+              break
+          
+          page += 1
+      else:
+          return None
+
+  return piscine_data
+
+
 def validate_student(user):
     token = get_42_api_token()
     url = f"https://api.intra.42.fr/v2/users/{user}"
