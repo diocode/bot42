@@ -21,7 +21,7 @@ def get_42_api_token():
         'client_secret': client_secret
     }
     
-    response = requests.post(token_url, data=data)
+    response = requests.request('POST', token_url, data=data)
     if response.status_code == 200:
         return response.json()['access_token']
     else:
