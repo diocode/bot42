@@ -101,12 +101,12 @@ def student_grades(message, say):
 🎒 {login}
 aka. {first_name} {last_name} 
 🚀 Cursus: {cursus}
-🎇 Current Level: {level:.2f}
+🎇 Level: {level:.2f}
 
 📟 Recent Projects : 
 {projects_str}
 
-📝 RecentExams : 
+📝 Exams : 
 {exams_str}
                 """
                 say(ret, thread_ts=message["ts"])
