@@ -54,3 +54,8 @@ Note: After doing this sucessully, go to the bar on the rignt in postman and the
 ![Screenshot from 2024-10-03 16-36-57](https://github.com/user-attachments/assets/a6457bd0-c346-4e90-a2d3-918a03afb229)
 
 
+### BOT Features
+
+- Search For Pisciner's Progress
+- Get General Project Stats
+- Get Exam Results
