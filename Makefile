@@ -37,23 +37,9 @@ MKDIR_P	= mkdir -p
 all: create_venv source_venv	## Create and activate virtualenv
 	make start
 
-start:
+run:
 	@echo "Starting $(NAME)..."
-	python3 -m $(NAME)
-
-create_venv:
-	@echo "Creating virtualenv..."
-	@if [ ! -d "$(VENV)" ]; then \
-		python3 -m venv .venv; \
-	else \
-		echo " $(RED)$(D) [$(GRN)Virtualenv already exists!$(D)]"; \
-	fi
-
-source_venv:	# source virtualenv
-	@echo "Activating virtualenv..."
-	@bash -c "source .venv/bin/activate && \
-	source .env && \
-	pip install -r requirements.txt"
+	./run.sh
 
 ##@ Clean-up Rules 󰃢
 

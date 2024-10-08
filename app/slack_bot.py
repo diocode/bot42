@@ -1,7 +1,7 @@
 import os
 from slack_bolt import App
 from .api import get_student_data, validate_student
-from .utils import format_student_info
+from .printer import format_student_info
 
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 
