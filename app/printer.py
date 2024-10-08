@@ -8,7 +8,7 @@ def format_student_info(student_data):
     exams = [
         project
         for project in student_data["projects_users"]
-        if project["project"]["name"].startswith("Exam")
+        if "Exam" in project["project"]["name"]
     ]
     exams_str = "\n".join(
         [
@@ -19,7 +19,7 @@ def format_student_info(student_data):
     only_projects = [
         project
         for project in projects
-        if not project["project"]["name"].startswith("Exam")
+        if "Exam" not in project["project"]["name"]
     ]
     recent_projects = sorted(
         only_projects, key=lambda x: x["marked_at"] or "", reverse=True

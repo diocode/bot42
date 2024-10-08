@@ -18,6 +18,7 @@ def get_42_api_token():
     else:
         raise Exception("Failed to obtain 42 API token")
 
+
 def get_student_data(user):
     token = get_42_api_token()
     url = f"https://api.intra.42.fr/v2/users/{user}"
@@ -28,6 +29,7 @@ def get_student_data(user):
         return response.json()
     else:
         return None
+
 
 def get_piscine_data(campus, year, month):
   token = get_42_api_token()

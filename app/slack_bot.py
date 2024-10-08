@@ -41,14 +41,18 @@ def get_piscine(message, say, client):
             thread_ts=message["ts"],
         )
         return
-    command, campus, year, month = words # Extract parameters
-    if command != "_piscine": # Validate the command
+    command, campus, year, month = words  # Extract parameters
+    if command != "_piscine":  # Validate the command
         say(
             "Invalid command. The command should start with '_piscine'",
             thread_ts=message["ts"],
         )
         return
-    print("Getting Data for Piscine {month} {year} for {campus}".format(month=month, year=year, campus=campus))
+    print(
+        "Getting Data for Piscine {month} {year} for {campus}".format(
+            month=month, year=year, campus=campus
+        )
+    )
     try:
         # Attempt to get piscine data
         piscine_data = get_piscine_data(campus, year, month)
@@ -59,7 +63,7 @@ def get_piscine(message, say, client):
                 thread_ts=message["ts"],
             )
             return
-        for student in piscine_data: # display usernames
+        for student in piscine_data:  # display usernames
             user = student["login"]
             student_data = get_student_data(user)
             if student_data:
