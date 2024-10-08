@@ -1,10 +1,10 @@
 import os
 from slack_bolt.adapter.socket_mode import SocketModeHandler
-from app.slack_bot import app
+import app.slack_bot as slack_bot
 
 def main():
     try:
-        handler = SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"])
+        handler = SocketModeHandler(slack_bot.app, os.environ["SLACK_APP_TOKEN"])
         handler.start()
     except KeyError:
         raise Exception("SLACK_APP_TOKEN environment variable not set")
