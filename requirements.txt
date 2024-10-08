@@ -1,4 +1,4 @@
+setuptools
 slack-bolt
 requests
-requests-oauthlib
 debugpy
