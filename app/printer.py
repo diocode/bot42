@@ -13,7 +13,7 @@ def format_student_info(student_data):
     ]
     exams_str = "\n".join(
         [
-            f"- {p['project']['name']}: {p['final_mark'] or 'In Progress'}"
+            f"*>{p['project']['name']}: `{p['final_mark'] or 'In Progress'}`"
             for p in exams
         ]
   )
@@ -32,16 +32,16 @@ def format_student_info(student_data):
         ]
     )
     return f"""
-🎒 {login}
+🎒 ##{login}##
 aka. {first_name} {last_name} 
-🚀 Cursus: {cursus}
-🎇 Level: {level:.2f}
+🚀 *Cursus:* `{cursus}`
+🎇 *Level:* `{level:.2f}`
 
-📟 Recent Projects : 
+📟 *Recent Projects :*
 {projects_str}
 
-📝 Exams : 
+📝 *Exams :* 
 {exams_str}
 
-![PHOTO]({small_image_url})
+Image alt text: {small_image_url}
 """
