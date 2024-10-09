@@ -49,6 +49,7 @@ lib/
 gdb.txt
 massif.*
 Minishell_test.py
+dist/
 
 # Kernel Module Compile Results
 *.mod*

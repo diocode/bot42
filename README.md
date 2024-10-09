@@ -3,9 +3,8 @@
 ## Usage
 
 ```sh
-python3 -m venv .venv
+./build.sh
 
-source .venv/bin/activate
 source .env
 
 pip install -r requirements.txt
