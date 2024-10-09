@@ -1,4 +1,5 @@
 import os
+import logging
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data
 from app.printer import format_student_info
@@ -32,6 +33,65 @@ def get_student(message, say):
             )
 
 
+# @app.message("_piscine")
+# def get_piscine(message, say, client):
+#     words = message["text"].lower().split()
+#     if len(words) != 4:
+#         say(
+#             "Invalid command format. Use '_piscine <campus> <year> <month>'",
+#             thread_ts=message["ts"],
+#         )
+#         return
+#     command, campus, year, month = words  # Extract parameters
+#     campus_caps = campus.title()
+#     month_caps = month.title()
+#     try:
+#         say(
+#             "🚀 Getting Data for Piscine {month} {year} in {campus}...".format(
+#                 month=month_caps, year=year, campus=campus_caps
+#             ), thread_ts=message["ts"]
+#         )
+#         say(
+#             "Plase wait... ⌛".format(
+#             ), thread_ts=message["ts"]
+#         )
+#         # Attempt to get piscine data
+#         piscine_data = get_piscine_data(campus, year, month)
+#
+#         if not piscine_data:
+#             say(
+#                 f"No data found for Piscine at {campus} in {month} {year}",
+#                 thread_ts=message["ts"],
+#             )
+#             return
+#         # List to store all usernames
+#         all_usernames = []
+#
+#         for student in piscine_data:
+#             user = student["login"]
+#             student_data = get_student_data(user)
+#             if student_data:
+#                 all_usernames.append(user)
+#
+#         # After collecting all usernames, display them
+#         if all_usernames:
+#             usernames_count = len(all_usernames)
+#             usernames_text = "\n".join(all_usernames)
+#             say(
+#                 f"Found {usernames_count} usernames for Piscine at {campus} in {month} {year}:\n{usernames_text}",
+#                 thread_ts=message["ts"],
+#             )
+#         else:
+#             say(
+#                 f"No valid usernames found for Piscine at {campus_caps} in {month_caps} {year}",
+#                 thread_ts=message["ts"],
+#             )
+#     except Exception as e:
+#         say(
+#             f"An error occurred while processing the command: {str(e)}",
+#             thread_ts=message["ts"],
+#         )
+
 @app.message("_piscine")
 def get_piscine(message, say, client):
     words = message["text"].lower().split()
@@ -46,47 +106,53 @@ def get_piscine(message, say, client):
     month_caps = month.title()
     try:
         say(
-            "🚀 Getting Data for Piscine {month} {year} in {campus}...".format(
-                month=month_caps, year=year, campus=campus_caps
-            ), thread_ts=message["ts"]
+            f"🚀 Getting Data for Piscine {month_caps} {year} in {campus_caps}...",
+            thread_ts=message["ts"]
         )
         say(
-            "Plase wait... ⌛".format(
-            ), thread_ts=message["ts"]
+            "Please wait... ⌛",
+            thread_ts=message["ts"]
         )
         # Attempt to get piscine data
         piscine_data = get_piscine_data(campus, year, month)
 
-        if not piscine_data:
+        if piscine_data is None:
             say(
-                f"No data found for Piscine at {campus} in {month} {year}",
+                f"Failed to retrieve data for Piscine at {campus_caps} in {month_caps} {year}. Check logs for details.",
                 thread_ts=message["ts"],
             )
             return
-        # List to store all usernames
-        all_usernames = []
+        elif not piscine_data:
+            say(
+                f"No data found for Piscine at {campus_caps} in {month_caps} {year}",
+                thread_ts=message["ts"],
+            )
+            return
+
+        # List to store all usernames and full names
+        all_student_info = []
 
         for student in piscine_data:
-            user = student["login"]
-            student_data = get_student_data(user)
-            if student_data:
-                all_usernames.append(user)
+            username = student["login"]
+            full_name = f"{student['first_name']} {student['last_name']}"
+            all_student_info.append(f"{username}\t{full_name}")
 
-        # After collecting all usernames, display them
-        if all_usernames:
-            usernames_count = len(all_usernames)
-            usernames_text = "\n".join(all_usernames)
+        # After collecting all student info, display them
+        if all_student_info:
+            student_count = len(all_student_info)
+            student_info_text = "\n".join(all_student_info)
             say(
-                f"Found {usernames_count} usernames for Piscine at {campus} in {month} {year}:\n{usernames_text}",
+                f"Found {student_count} students for Piscine at {campus_caps} in {month_caps} {year}:\n{student_info_text}",
                 thread_ts=message["ts"],
             )
         else:
             say(
-                f"No valid usernames found for Piscine at {campus_caps} in {month_caps} {year}",
+                f"No valid student information found for Piscine at {campus_caps} in {month_caps} {year}",
                 thread_ts=message["ts"],
             )
     except Exception as e:
+        logging.error(f"Error in get_piscine: {str(e)}")
         say(
-            f"An error occurred while processing the command: {str(e)}",
+            f"An error occurred while processing the command. Check logs for details.",
             thread_ts=message["ts"],
         )
