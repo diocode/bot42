@@ -21,7 +21,6 @@ def get_student(message, say):
             user = message["text"].split(" ")[1]
             student_data = get_student_data(user)
             if student_data:
-                say("*User Information:*", thread_ts=message["ts"])
                 formatted_info = format_student_info(student_data)
                 say(formatted_info, thread_ts=message["ts"])
             else:
