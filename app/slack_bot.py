@@ -76,12 +76,15 @@ def get_piscine(message, say, client):
         for student in piscine_data:
             username = student["login"]
             full_name = f"{student['first_name']} {student['last_name']}"
-            all_student_info.append(f"{username}\t{full_name}")
+            all_student_info.append((username, full_name))
 
-        # After collecting all student info, display them
+        # Sort the list based on usernames
+        all_student_info.sort(key=lambda x: x[0].lower())
+
+        # After collecting and sorting all student info, display them
         if all_student_info:
             student_count = len(all_student_info)
-            student_info_text = "\n".join(all_student_info)
+            student_info_text = "\n".join([f"{username}\t{full_name}" for username, full_name in all_student_info])
             say(
                 f"Found {student_count} students for Piscine at {campus_caps} in {month_caps} {year}:\n{student_info_text}",
                 thread_ts=message["ts"],
