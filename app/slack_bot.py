@@ -47,11 +47,7 @@ def get_piscine(message, say, client):
     month_caps = month.title()
     try:
         say(
-            f"🚀 Getting Data for Piscine {month_caps} {year} in {campus_caps}...",
-            thread_ts=message["ts"]
-        )
-        say(
-            "Please wait... ⌛",
+            f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*...",
             thread_ts=message["ts"]
         )
         # Attempt to get piscine data
@@ -59,13 +55,13 @@ def get_piscine(message, say, client):
 
         if piscine_data is None:
             say(
-                f"Failed to retrieve data for Piscine at {campus_caps} in {month_caps} {year}. Check logs for details.",
+                f"Failed to retrieve data for Piscine at *{campus_caps}* in *{month_caps} {year}*. *Check logs* for details.",
                 thread_ts=message["ts"],
             )
             return
         elif not piscine_data:
             say(
-                f"No data found for Piscine at {campus_caps} in {month_caps} {year}",
+                f"No data found for Piscine at *{campus_caps}* in *{month_caps} {year}*",
                 thread_ts=message["ts"],
             )
             return
@@ -84,19 +80,19 @@ def get_piscine(message, say, client):
         # After collecting and sorting all student info, display them
         if all_student_info:
             student_count = len(all_student_info)
-            student_info_text = "\n".join([f"{username}\t{full_name}" for username, full_name in all_student_info])
+            student_info_text = "\n".join([f"*{username}*\t{full_name}" for username, full_name in all_student_info])
             say(
-                f"Found {student_count} students for Piscine at {campus_caps} in {month_caps} {year}:\n{student_info_text}",
+                f"*Piscine {month_caps} {year} in {campus_caps}:*\n`{student_count}` students\n\n{student_info_text}",
                 thread_ts=message["ts"],
             )
         else:
             say(
-                f"No valid student information found for Piscine at {campus_caps} in {month_caps} {year}",
+                f"No valid student information found for Piscine at *{campus_caps}* in *{month_caps} {year}*",
                 thread_ts=message["ts"],
             )
     except Exception as e:
         logging.error(f"Error in get_piscine: {str(e)}")
         say(
-            f"An error occurred while processing the command. Check logs for details.",
+            f"An error occurred while processing the command. *Check logs* for details.",
             thread_ts=message["ts"],
         )
