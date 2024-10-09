@@ -5,6 +5,7 @@ def format_student_info(student_data):
     cursus = student_data["cursus_users"][-1]["cursus"]["name"]
     level = student_data["cursus_users"][-1]["level"]
     projects = student_data["projects_users"]
+    small_image_url = student_data["image"]["versions"]["small"]
     exams = [
         project
         for project in student_data["projects_users"]
@@ -15,7 +16,7 @@ def format_student_info(student_data):
             f"- {p['project']['name']}: {p['final_mark'] or 'In Progress'}"
             for p in exams
         ]
-    )
+  )
     only_projects = [
         project
         for project in projects
@@ -41,4 +42,6 @@ aka. {first_name} {last_name}
 
 📝 Exams : 
 {exams_str}
-    """
+
+![PHOTO]({small_image_url})
+"""

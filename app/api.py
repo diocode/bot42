@@ -19,6 +19,14 @@ def get_42_api_token():
         raise Exception("Failed to obtain 42 API token")
 
 
+def validate_student(user):
+    token = get_42_api_token()
+    url = f"https://api.intra.42.fr/v2/users/{user}"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(url, headers=headers)
+    return response.status_code == 200
+
+
 def get_student_data(user):
     token = get_42_api_token()
     url = f"https://api.intra.42.fr/v2/users/{user}"
@@ -59,11 +67,3 @@ def get_piscine_data(campus, year, month):
       else:
           return None
   return piscine_data
-
-
-def validate_student(user):
-    token = get_42_api_token()
-    url = f"https://api.intra.42.fr/v2/users/{user}"
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.get(url, headers=headers)
-    return response.status_code == 200

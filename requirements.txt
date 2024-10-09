@@ -1,4 +1,0 @@
-setuptools
-slack-bolt
-requests
-debugpy

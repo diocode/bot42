@@ -42,18 +42,18 @@ def get_piscine(message, say, client):
         )
         return
     command, campus, year, month = words  # Extract parameters
-    if command != "_piscine":  # Validate the command
-        say(
-            "Invalid command. The command should start with '_piscine'",
-            thread_ts=message["ts"],
-        )
-        return
-    print(
-        "Getting Data for Piscine {month} {year} for {campus}".format(
-            month=month, year=year, campus=campus
-        )
-    )
+    campus_caps = campus.title()
+    month_caps = month.title()
     try:
+        say(
+            "🚀 Getting Data for Piscine {month} {year} in {campus}...".format(
+                month=month_caps, year=year, campus=campus_caps
+            ), thread_ts=message["ts"]
+        )
+        say(
+            "Plase wait... ⌛".format(
+            ), thread_ts=message["ts"]
+        )
         # Attempt to get piscine data
         piscine_data = get_piscine_data(campus, year, month)
 
@@ -63,11 +63,27 @@ def get_piscine(message, say, client):
                 thread_ts=message["ts"],
             )
             return
-        for student in piscine_data:  # display usernames
+        # List to store all usernames
+        all_usernames = []
+
+        for student in piscine_data:
             user = student["login"]
             student_data = get_student_data(user)
             if student_data:
-                say(user, thread_ts=message["ts"])
+                all_usernames.append(user)
+
+        # After collecting all usernames, display them
+        if all_usernames:
+            usernames_text = "\n".join(all_usernames)
+            say(
+                f"Usernames for Piscine at {campus} in {month} {year}:\n{usernames_text}",
+                thread_ts=message["ts"],
+            )
+        else:
+            say(
+                f"No valid usernames found for Piscine at {campus_caps} in {month_caps} {year}",
+                thread_ts=message["ts"],
+            )
     except Exception as e:
         say(
             f"An error occurred while processing the command: {str(e)}",
