@@ -5,6 +5,7 @@ def format_student_info(student_data):
     cursus = student_data["cursus_users"][-1]["cursus"]["name"]
     level = student_data["cursus_users"][-1]["level"]
     projects = student_data["projects_users"]
+    location = student_data["location"]
     small_image_url = student_data["image"]["versions"]["small"]
     exams = [
         project
@@ -35,6 +36,7 @@ def format_student_info(student_data):
 
 *User:*     `{login}`
 *Name:*    `{first_name} {last_name}`
+*Cluster:* `{location}`
 *Cursus:*   `{cursus}`
 *Level:*     `{level:.2f}`
 
