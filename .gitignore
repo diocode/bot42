@@ -94,3 +94,4 @@ venv/
 .venv/
 .env
 __pycache__
+LookinSlack.egg-info/

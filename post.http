@@ -1,8 +1,0 @@
-POST /oauth/token HTTP/1.1
-Host: https://api.intra.42.fr/v2/users/passunca
-Grant-Type: "client_credentials"
-Client-ID: INTRA_UID
-Client-Secret: INTRA_SECRET
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=client_credentials&client_id=INTRA_UID&client_secret=INTRA_SECRET
