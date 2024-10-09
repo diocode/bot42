@@ -106,3 +106,50 @@ def get_piscine(message, say, client):
             f"An error occurred while processing the command. *Check logs* for details.",
             thread_ts=message["ts"],
         )
+
+@app.message("_cluster")
+def get_cluster_user(message, say):
+    words = message["text"].lower().split()
+    if len(words) != 2:
+        say(
+            "Invalid command format. Use '_cluster <cluster_name>'",
+            thread_ts=message["ts"],
+        )
+        return
+
+    cluster_name = words[1]
+    
+    try:
+        # Assuming you have a function to get the logged-in user for a cluster
+        logged_in_user = get_logged_in_user(cluster_name)
+        
+        if logged_in_user:
+            say(
+                f"The user logged into cluster *{cluster_name}* is: *{logged_in_user}*",
+                thread_ts=message["ts"],
+            )
+        else:
+            say(
+                f"No user is currently logged into cluster *{cluster_name}*",
+                thread_ts=message["ts"],
+            )
+    except Exception as e:
+        logging.error(f"Error in get_cluster_user: {str(e)}")
+        say(
+            f"An error occurred while checking the cluster. *Check logs* for details.",
+            thread_ts=message["ts"],
+        )
+
+def get_logged_in_user(cluster_name):
+    # Implement the logic to check the logged-in user for the given cluster
+    # This is a placeholder function - you need to implement the actual logic
+    # based on how you can retrieve this information in your system
+    
+    # Example implementation (replace with actual logic):
+    cluster_info = {
+        "c1": "user1",
+        "c2": "user2",
+        "c3": None,  # No user logged in
+    }
+    
+    return cluster_info.get(cluster_name)

@@ -45,7 +45,7 @@ def format_student_info(student_data):
 {projects_str}
 
 
- 📝 *Exams :* 
+📝 *Exams :* 
 {exams_str}
 
 
