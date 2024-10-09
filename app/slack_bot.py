@@ -74,9 +74,10 @@ def get_piscine(message, say, client):
 
         # After collecting all usernames, display them
         if all_usernames:
+            usernames_count = len(all_usernames)
             usernames_text = "\n".join(all_usernames)
             say(
-                f"Usernames for Piscine at {campus} in {month} {year}:\n{usernames_text}",
+                f"Found {usernames_count} usernames for Piscine at {campus} in {month} {year}:\n{usernames_text}",
                 thread_ts=message["ts"],
             )
         else:
