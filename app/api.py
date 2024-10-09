@@ -28,18 +28,6 @@ def validate_student(user):
     return response.status_code == 200
 
 
-# def get_student_data(user):
-#     token = get_42_api_token()
-#     url = f"https://api.intra.42.fr/v2/users/{user}"
-#     headers = {"Authorization": f"Bearer {token}"}
-#
-#     response = requests.get(url, headers=headers)
-#     response.raise_for_status()  # Raises an HTTPError for bad responses
-#     if response.status_code == 200:
-#         return response.json()
-#     else:
-#         return None
-
 def get_student_data(user):
     try:
         token = get_42_api_token()
@@ -66,6 +54,7 @@ def get_student_data(user):
     except Exception as e:
         logging.error(f"Error in get_student_data for user {user}: {str(e)}")
         return None
+
 
 def get_piscine_data(campus, year, month):
     try:
