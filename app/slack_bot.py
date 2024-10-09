@@ -1,4 +1,5 @@
 import os
+import re
 import logging
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data
@@ -6,6 +7,7 @@ from app.printer import format_student_info
 
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 
+piscine_data = {}
 
 @app.message("_student")
 def get_student(message, say):
@@ -96,3 +98,38 @@ def get_piscine(message, say, client):
             f"An error occurred while processing the command. *Check logs* for details.",
             thread_ts=message["ts"],
         )
+
+@app.message(re.compile(r"^_filter"))
+def filter_piscine(message, say, client):
+    words = message["text"].lower().split()
+    if len(words) < 2:
+        say("Invalid command format. Use '_filter <project_name>'", thread_ts=message["ts"])
+        return
+
+    thread_ts = message.get("thread_ts") or message["ts"]
+
+    if thread_ts not in piscine_data:
+        say("No piscine data found in this thread. Please run the _piscine command first.", thread_ts=thread_ts)
+        return
+
+    students = piscine_data[thread_ts]
+    
+    project_name = words[1]
+
+    results = []
+    for student in students:
+        detailed_data = get_student_data(student["login"])
+        if detailed_data:
+            project_info = next((
+                project for project in detailed_data.get('projects', [])
+                if project_name.lower() in project['name'].lower()
+            ), None)
+            
+            if project_info:
+                results.append(f"{student['login']} - {student['first_name']} {student['last_name']}")
+
+    if results:
+        formatted_results = "\n".join(results)
+        say(f"Students working on project '{project_name}':\n\n{formatted_results}", thread_ts=thread_ts)
+    else:
+        say(f"No students found working on project '{project_name}'", thread_ts=thread_ts)
