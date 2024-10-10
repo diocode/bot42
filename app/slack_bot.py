@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from slack_bolt import App
-from app.api import get_piscine_data, get_student_data
+from app.api import get_piscine_data, get_student_data, get_student_location
 from app.printer import format_student_info
 
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
@@ -136,7 +136,7 @@ def locate_student(message, say):
 
         if location:
             say(
-                f"The student *{student_name}* is located in cluster: *{location}*",
+                f"🎒 The student *{student_name}* is located in cluster: 💻 *{location}*",
                 thread_ts=message["ts"],
             )
         else:
