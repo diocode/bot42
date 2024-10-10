@@ -1,6 +1,5 @@
 import os
 import logging
-import logging
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data, get_student_location
 from app.printer import format_student_info
