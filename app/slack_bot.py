@@ -1,5 +1,4 @@
 import os
-import json
 import logging
 import logging
 from slack_bolt import App
