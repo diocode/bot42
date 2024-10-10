@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import logging
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data, get_student_location
 from app.printer import format_student_info
@@ -113,10 +114,6 @@ def get_piscine(message, say, client):
             f"An error occurred while processing the command. *Check logs* for details.",
             thread_ts=message["ts"],
         )
-
-
-import json
-import logging
 
 
 @app.message("_locate")
