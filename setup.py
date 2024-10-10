@@ -7,8 +7,8 @@ setup(
     author="passunca & digoncal",
     package_dir={"": "app"},
     packages=find_packages(include=["app.*"]),
-    # py_modules=["slack_bot", "printer", "api"],
     include_package_data=True,
+    scripts=["build.sh"],
     install_requires=[
         "setuptools",
         "slack_bolt",
@@ -17,4 +17,5 @@ setup(
     extras_require={
         "dev": ["debugpy", "black"],
     },
+    data_files=[("scripts", ["build.sh"])],
 )
