@@ -3,35 +3,11 @@ import logging
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data, get_student_location
 from app.printer import format_student_info
+from warning import warning_status
 
 app = App(token=os.environ["SLACK_BOT_TOKEN"])
 
 piscine_data = {}
-
-
-@app.message("_student")
-def get_student(message, say):
-    words = message["text"].lower().split()
-    if len(words) != 2:
-        say(
-            "Invalid command format. Use '_student <username>'",
-            thread_ts=message["ts"],
-        )
-        return
-    if message["text"].lower().startswith("_student"):
-        try:
-            user = message["text"].split(" ")[1]
-            student_data = get_student_data(user)
-            if student_data:
-                formatted_info = format_student_info(student_data)
-                say(formatted_info, thread_ts=message["ts"])
-            else:
-                say("Invalid student", thread_ts=message["ts"])
-        except IndexError:
-            say(
-                "Invalid command format. Use '_student <username>'",
-                thread_ts=message["ts"],
-            )
 
 
 @app.message("_piscine")
@@ -39,8 +15,11 @@ def get_piscine(message, say, client):
     words = message["text"].lower().split()
     if len(words) < 4 or len(words) > 5:
         say(
-            "Invalid command format. Use '_piscine <campus> <year> <month> [project]'",
-            thread_ts=message["ts"],
+            """
+            Invalid command format. Use '_piscine <campus> <year> <month> [filter]'
+            optional filters : warn, (...)
+            """,
+            thread_ts=message["ts"]
         )
         return
 
@@ -70,8 +49,6 @@ def get_piscine(message, say, client):
                 thread_ts=message["ts"],
             )
             return
-
-        # List to store all usernames and full names
         all_student_info = []
 
         for student in piscine_data:
@@ -83,7 +60,12 @@ def get_piscine(message, say, client):
                 if not any(p["slug"] == project for p in student.get("projects", [])):
                     continue
 
-            all_student_info.append((username, full_name))
+            # Check for warning status
+            if len(words) == 5 and words[4] == "warn":
+                if warning_status(student) == "🚩 (_possibly cheating_)":
+                    all_student_info.append((username, full_name))
+            else:
+                all_student_info.append((username, full_name))
 
         # Sort the list based on usernames
         all_student_info.sort(key=lambda x: x[0].lower())
@@ -103,7 +85,7 @@ def get_piscine(message, say, client):
             )
         else:
             say(
-                f"No valid student information found for Piscine at *{campus_caps}* in *{month_caps} {year}*{' for project ' + project if project else ''}",
+                f"No students found matching the criteria for Piscine {month_caps} {year} in {campus_caps}{' for project ' + project if project else ''}.",
                 thread_ts=message["ts"],
             )
     except Exception as e:
@@ -112,6 +94,30 @@ def get_piscine(message, say, client):
             f"An error occurred while processing the command. *Check logs* for details.",
             thread_ts=message["ts"],
         )
+
+@app.message("_student")
+def get_student(message, say):
+    words = message["text"].lower().split()
+    if len(words) != 2:
+        say(
+            "Invalid command format. Use '_student <username>'",
+            thread_ts=message["ts"],
+        )
+        return
+    if message["text"].lower().startswith("_student"):
+        try:
+            user = message["text"].split(" ")[1]
+            student_data = get_student_data(user)
+            if student_data:
+                formatted_info = format_student_info(student_data)
+                say(formatted_info, thread_ts=message["ts"])
+            else:
+                say("Invalid student", thread_ts=message["ts"])
+        except IndexError:
+            say(
+                "Invalid command format. Use '_student <username>'",
+                thread_ts=message["ts"],
+            )
 
 
 @app.message("_locate")
