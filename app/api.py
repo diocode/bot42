@@ -98,3 +98,13 @@ def get_piscine_data(campus, year, month):
     except Exception as e:
         logging.error(f"Error in get_piscine_data: {str(e)}")
         return None
+
+
+def get_student_location(student_name):
+    res = get_student_data(student_name)
+    if res is None:
+        return None
+    location = res.get('location')
+    if location:
+        return location
+    return None
