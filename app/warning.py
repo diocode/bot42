@@ -1,35 +1,97 @@
 from pprint import pprint
+from datetime import datetime, timedelta
 
-def	warning_status(progress_data):
+def get_project_data(student_data):
+	projects = student_data["projects_users"]
+	progress_data = {}
 
-  project_lvl = 0
-  exam_lvl = 0
-  nbr_projs = 0
-  nbr_exams = 0
-  for project_name, score in progress_data.items():
-    if project_name.startswith("C Piscine C") and isinstance(score, int):
-      project_lvl += score
-      nbr_projs += 1
+	exams = [
+		project
+		for project in student_data["projects_users"]
+		if "Exam" in project["project"]["name"]
+	]
+	# Fill progress_data with exam results
+	for exam in exams:
+		progress_data[exam['project']['name']] = exam.get('final_mark', 'In Progress')
+	
+	only_projects = [
+		project
+		for project in projects
+		if "Exam" not in project["project"]["name"]
+	]
+	# Fill progress_data with project results
+	for project in only_projects:
+		progress_data[project['project']['name']] = project.get('final_mark', 'In Progress')
 
-    if "Exam" in project_name:
-      nbr_exams += 1
-      if isinstance(score, int):
-        exam_lvl += score
-        nbr_exams += 1
+	return progress_data
 
-  print(f"Projects:{project_lvl}\nTotal Projects:{nbr_projs} \nExams:{exam_lvl} \nTotal Exams:{nbr_exams}")
-  pprint(progress_data)
+def get_timeline(student_data):
+	start_date = datetime.strptime(student_data["cursus_users"][-1]["created_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
+	cur_date = datetime.now()
 
-  if nbr_exams == 1 and project_lvl > 150 and exam_lvl < 30:
-    return "🚩(_possibly cheating_)"
+	days_difference = (cur_date - start_date).days
+	week = (days_difference // 7) + 1
+	if week > 4:
+		week = 4
+	
+	day = cur_date.weekday()
+	day_str = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][day]
 
-  if nbr_exams == 2 and project_lvl > 300 and exam_lvl < 30:
-    return "🚩(_possibly cheating_)"
+	return week, day_str
 
-  if nbr_exams == 3 and project_lvl > 400 and exam_lvl < 60:
-    return "🚩(_possibly cheating_)"
+def	warning_status(student_data):
+	projects = student_data["projects_users"]
+	week, day = get_timeline(student_data)
+	progress_data = get_project_data(student_data)
+	student_project_avg = 0
+	student_exam_avg = 0
+	nbr_projs = 0
 
-  if nbr_exams == 4 and project_lvl > 400 and exam_lvl < 60:
-    return "🚩(_possibly cheating_)"
+	match week:
+		case (1):
+			avg_project = "C Piscine C 01"
+			avg_exam = 26
+		case (2):
+			avg_project = "C Piscine C 03"
+			avg_exam = (26 + 29) / 2
+		case (3):
+			avg_project = "C Piscine C 05"
+			avg_exam = (26 + 29 + 30) / 3
+		case _:
+			avg_project = "C Piscine C 07"
+			avg_exam = (26 + 29 + 30 + 34) / 4
+		
+	for project_name, score in progress_data.items():
+		if project_name.startswith("C Piscine C" or "C Piscine Shell") and isinstance(score, int):
+			student_project_avg += score
+			nbr_projs += 1
 
-  return "🏳️ (_not cheating_)"
+		#upgrade this exam avg method
+		if "Exam" in project_name:
+			if isinstance(score, int):
+				student_exam_avg += score
+	
+	student_project_avg /= nbr_projs
+	student_exam_avg /= week
+	
+	# Check if the exam's score average is below the week's average and the project's score average is above the week's average or the project's score average is 90
+	if avg_exam > student_exam_avg:
+		if avg_project in progress_data or student_project_avg >= 90:
+			return 1
+	return 3
+
+'''
+Triggers for cheating:
+
+1. If pisciner's projects delivered are above the week's average
+2. If pisciner's project's score average is 90
+3. If pisciner's exam's score average is below the week's average 
+	and the project's score average is above the week's average
+
+Triggers for helping:
+
+1. If pisciner hasn't delivered Shell00 and C00 in week 2 (tuesday)
+2. If pisciner hasn't delivered C01 and C02 in week 3 (tuesday)
+3. If pisciner hasn't delivered C03 and C04 in week 4 (tuesday)
+
+'''
