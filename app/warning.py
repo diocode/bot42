@@ -47,6 +47,17 @@ def	warning_status(student_data):
 	student_exam_avg = 0
 	nbr_projs = 0
 
+	for project_name, score in progress_data.items():
+			if project_name.startswith("C Piscine C" or "C Piscine Shell") and isinstance(score, int):
+				student_project_avg += score
+				nbr_projs += 1
+
+			if "Exam" in project_name:
+				if isinstance(score, int):
+					student_exam_avg += score
+
+	student_project_avg /= nbr_projs
+	
 	match week:
 		case (1):
 			avg_project = "C Piscine C 01"
@@ -54,25 +65,16 @@ def	warning_status(student_data):
 		case (2):
 			avg_project = "C Piscine C 03"
 			avg_exam = (26 + 29) / 2
+			student_exam_avg /= 2
+
 		case (3):
 			avg_project = "C Piscine C 05"
 			avg_exam = (26 + 29 + 30) / 3
+			student_exam_avg /= 3
 		case _:
 			avg_project = "C Piscine C 07"
 			avg_exam = (26 + 29 + 30 + 34) / 4
-		
-	for project_name, score in progress_data.items():
-		if project_name.startswith("C Piscine C" or "C Piscine Shell") and isinstance(score, int):
-			student_project_avg += score
-			nbr_projs += 1
-
-		#upgrade this exam avg method
-		if "Exam" in project_name:
-			if isinstance(score, int):
-				student_exam_avg += score
-	
-	student_project_avg /= nbr_projs
-	student_exam_avg /= week
+			student_exam_avg /= 4
 	
 	# Check if the exam's score average is below the week's average and the project's score average is above the week's average or the project's score average is 90
 	if avg_exam > student_exam_avg:
