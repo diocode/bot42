@@ -105,7 +105,7 @@ def get_student_location(identifier, campus):
     try:
         if identifier:
             if identifier.startswith('c'):
-                data = get_user_at_location(identifier)
+                data = get_user_at_location(identifier, campus)
                 if isinstance(data, list) and len(data) > 0:
                     location = data[0].get('location')
                     user = data[0].get('login', {}).get('login')
@@ -136,7 +136,7 @@ def get_user_at_location(identifier, campus):
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         data = response.json()
-
+        pprint(data)
         if data:
             # Format the data as expected by get_student_location
             return [{
