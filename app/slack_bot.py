@@ -140,7 +140,7 @@ def locate_student(message, say):
             )
         else:
             say(
-                f"🎒 The student *{student_name}* is located in cluster: 💻 *{location}*",
+                f"🎒 The student *{student_name}* is on cluster: 💻 *{location}*",
                 thread_ts=message["ts"],
             )
     except Exception as e:
@@ -149,34 +149,3 @@ def locate_student(message, say):
             f"An error occurred while locating the student or computer. *Check logs* for details.",
             thread_ts=message["ts"],
         )
-
-# @app.message("_locate")
-# def locate_student(message, say):
-#     words = message["text"].lower().split()
-#     if len(words) != 3:
-#         say(
-#             "Invalid command format. Use '_locate <student_name_or_computer_id> <campus>'",
-#             thread_ts=message["ts"],
-#         )
-#         return
-#
-#     identifier = words[1]
-#     campus = words[2]
-#     try:
-#         location, student_name = get_student_location(identifier, campus)
-#         if identifier.startswith("c") and identifier.find("r") and identifier.find("s"):
-#             say(
-#                 f"💻 The computer *{identifier}* is being used by : 🎒 *{student_name}*",
-#                 thread_ts=message["ts"],
-#             )
-#         else:
-#             say(
-#                 f"🎒 The student *{student_name}* is located in cluster: 💻 *{location}*",
-#                 thread_ts=message["ts"],
-#             )
-#     except Exception as e:
-#         logging.error(f"Error in locate_student: {str(e)}")
-#         say(
-#             f"An error occurred while locating the student or computer. *Check logs* for details.",
-#             thread_ts=message["ts"],
-#         )

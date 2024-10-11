@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 import logging
 from pprint import pprint
@@ -66,7 +67,6 @@ def get_piscine_data(campus, year, month):
         headers = {
             "Authorization": f"Bearer {token}"
         }
-
         params = {
             "filter[pool_year]": year,
             "filter[pool_month]": month,
@@ -101,10 +101,11 @@ def get_piscine_data(campus, year, month):
         logging.error(f"Error in get_piscine_data: {str(e)}")
         return None
 
+
 def get_student_location(identifier, campus):
     try:
         if identifier:
-            if identifier.startswith('c'):
+            if identifier.startswith('c') and identifier.find('r') != -1 and identifier.find('s') != -1:
                 data = get_user_at_location(identifier, campus)
                 if isinstance(data, list) and len(data) > 0:
                     location = data[0].get('location')
@@ -130,29 +131,32 @@ def get_student_location(identifier, campus):
 def get_user_at_location(identifier, campus):
     try:
         token = get_42_api_token()
-        url = f"https://api.intra.42.fr/v2/locations/{campus}"
+        url = "https://api.intra.42.fr/v2/locations"
         headers = {"Authorization": f"Bearer {token}"}
-        # Assuming there's an API endpoint to fetch location data
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        data = response.json()
+        params = {
+            "filter[campus_id]": campus,
+            # "filter[host]": identifier,
+            "page[size]": 1
+        }
+        location_data = requests.get(url, headers=headers, params=params)
+        location_data.raise_for_status()
+        data = location_data.json()
+
         pprint(data)
-        if data:
-            # Format the data as expected by get_student_location
+        data.extend(data)
+        # Filter the data based on the identifier (host)
+        filtered_data = [entry for entry in data if entry['host'] == identifier]
+
+        if filtered_data:
+            user_data = filtered_data[0]['user']
             return [{
-                'location': entry['host'],
-                'login': {'login': entry['user']['login']}
-            } for entry in data if entry['host'] == identifier]
+                'location': filtered_data[0]['host'],
+                'login': {'login': user_data['login']},
+            }]
         else:
             return []
 
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error in get_user_at_location: {str(e)}")
-        if 'response' in locals():
-            logging.error(f"Response content: {response.text}")
-        else:
-            logging.error("No response received")
-        return []
     except Exception as e:
         logging.error(f"Unexpected error in get_user_at_location: {str(e)}")
         return []
+
