@@ -5,6 +5,14 @@
 ```sh
 ./build.sh
 
+Create a .env file:
+export SLACK_BOT_TOKEN="your_token"
+export SLACK_APP_TOKEN="your_token"
+export INTRA_UID="your_token"
+export INTRA_SECRET="your_token"
+
+source .venv/bin/activate
+
 source .env
 
 python3 app.py

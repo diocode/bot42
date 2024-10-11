@@ -41,11 +41,11 @@ def format_student_info(student_data):
 	warning = warning_status(student_data)
 	match warning:
 		case (1):
-			warning_msg = "🚨 _possibly cheating_"
+			warning_msg = "🚨 (_Possibly cheating_)"
 		case (2):
-			warning_msg = "✅ _Needs help_"
+			warning_msg = "🦮 (_Needs help_)"
 		case _:
-			warning_msg = "_No flags raised_"
+			warning_msg = "🟢 (_No flags raised_)"
 
 	return f"""
 
