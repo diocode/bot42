@@ -61,23 +61,28 @@ def	warning_status(student_data):
 	match week:
 		case (1):
 			avg_project = "C Piscine C 01"
-			avg_exam = 26
+			exam_avg = 26
+			if "Exam C 00" in progress_data:
+				student_exam_avg = progress_data["Exam C 00"]
 		case (2):
 			avg_project = "C Piscine C 03"
-			avg_exam = (26 + 29) / 2
-			student_exam_avg /= 2
+			exam_avg = 29
+			if "Exam C 01" in progress_data:
+				student_exam_avg = progress_data["Exam C 01"]
 
 		case (3):
 			avg_project = "C Piscine C 05"
-			avg_exam = (26 + 29 + 30) / 3
-			student_exam_avg /= 3
+			exam_avg = 30
+			if "Exam C 02" in progress_data:
+				student_exam_avg = progress_data["Exam C 02"]
 		case _:
 			avg_project = "C Piscine C 07"
-			avg_exam = (26 + 29 + 30 + 34) / 4
-			student_exam_avg /= 4
+			exam_avg = 34
+			if "C Piscine Final Exam" in progress_data:
+				student_exam_avg = progress_data["C Piscine Final Exam"]
 	
 	# Check if the exam's score average is below the week's average and the project's score average is above the week's average or the project's score average is 90
-	if avg_exam > student_exam_avg:
+	if exam_avg > student_exam_avg:
 		if avg_project in progress_data or student_project_avg >= 90:
 			return 1
 	return 3
