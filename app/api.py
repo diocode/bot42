@@ -82,7 +82,7 @@ def get_piscine_data(campus, year, month):
                 response.raise_for_status()  # Raises an HTTPError for bad responses
                 data = response.json()
                 piscine_data.extend(data)
-                # pprint(data)
+                pprint(data)
                 if len(data) < params["page[size]"]:
                     break
                 page += 1
@@ -136,26 +136,44 @@ def get_user_at_location(identifier, campus):
         token = get_42_api_token()
         url = "https://api.intra.42.fr/v2/locations"
         headers = {"Authorization": f"Bearer {token}"}
-        params = {"filter": {"campus_id": 58, "host": "c1r2s3"}}
-        location_data = requests.get(url, headers=headers, params=params)
-        location_data.raise_for_status()
-        data = location_data.json()
-
-        # pprint(data)
-        data.extend(data)
-        # Filter the data based on the identifier (host)
-        filtered_data = [entry for entry in data if entry["host"] == identifier]
-
-        if filtered_data:
-            user_data = filtered_data[0]["user"]
-            return [
-                {
-                    "location": filtered_data[0]["host"],
-                    "login": {"login": user_data["login"]},
-                }
-            ]
-        else:
-            return []
+        params = {
+            "filter[campus_id]": 58,
+            "page[size]": 100,
+        }
+        location_data = []
+        page = 1
+    
+        while True:
+            params["page[number]"] = page
+            response = None
+            try:
+                location_data = requests.get(url, headers=headers, params=params)
+                location_data.raise_for_status()
+                data = location_data.json()
+                data.extend(data)
+                pprint(data)
+                if len(data) < params["page[size]"]:
+                    break
+                # Filter the data based on the identifier (host)
+                filtered_data = [entry for entry in data if entry["host"] == identifier]
+                page +=1
+                if filtered_data:
+                    user_data = filtered_data[0]["user"]
+                    return [
+                        {
+                            "location": filtered_data[0]["host"],
+                            "login": {"login": user_data["login"]},
+                        }
+                    ]
+                else:
+                    return []
+            except requests.exceptions.RequestException as e:
+                logging.error(f"Error fetching page {page}: {str(e)}")
+                if response:
+                    logging.error(f"Response content: {response.text}")
+                else:
+                    logging.error("No response received")
+                return None
 
     except Exception as e:
         logging.error(f"Unexpected error in get_user_at_location: {str(e)}")
