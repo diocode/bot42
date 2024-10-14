@@ -130,9 +130,10 @@ def locate_student(message, say):
 
     identifier = words[1]
     campus = words[2] if len(words) == 3 else None
-
+    print(identifier)
+    print(campus)
     try:
-        location, student_name = get_student_location(identifier, campus)
+        student_name, location = get_student_location(identifier, campus)
         if identifier.startswith("c") and identifier.find("r") != -1 and identifier.find("s") != -1:
             say(
                 f"💻 The computer *{identifier}* is being used by : 🎒 *{student_name}*",

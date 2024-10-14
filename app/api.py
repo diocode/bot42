@@ -82,7 +82,7 @@ def get_piscine_data(campus, year, month):
                 response.raise_for_status()  # Raises an HTTPError for bad responses
                 data = response.json()
                 piscine_data.extend(data)
-                pprint(data)
+                # pprint(data)
                 if len(data) < params["page[size]"]:
                     break
                 page += 1
@@ -141,7 +141,7 @@ def get_user_at_location(identifier, campus):
         location_data.raise_for_status()
         data = location_data.json()
 
-        pprint(data)
+        # pprint(data)
         data.extend(data)
         # Filter the data based on the identifier (host)
         filtered_data = [entry for entry in data if entry["host"] == identifier]
