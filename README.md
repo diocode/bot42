@@ -5,14 +5,16 @@
 ```sh
 ./build.sh
 
-Create a .env file:
+# Create a .env file:
 export SLACK_BOT_TOKEN="your_token"
 export SLACK_APP_TOKEN="your_token"
 export INTRA_UID="your_token"
 export INTRA_SECRET="your_token"
 
-source .venv/bin/activate
+# Build venv
+./build.sh
 
+source .venv/bin/activate
 source .env
 
 python3 app.py
@@ -22,7 +24,7 @@ python3 app.py
 
 https://docs.python.org/3/library/venv.html
 
-## Slack Bolt API
+## Slack Bolt API Docs
 
 https://api.slack.com/apps
 <br/>
@@ -63,11 +65,10 @@ Note: After doing this sucessully, go to the bar on the rignt in postman and the
 
 - Search For Pisciner's Progress
 - Get General Project Stats
+- Search student by computer ID
 - Get Exam Results
 
 
 # TODO
 
-- Search student by computer ID
-- Warning in case of Project & Exam mismatch
 - Print warnings List

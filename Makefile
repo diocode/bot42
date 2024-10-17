@@ -9,7 +9,7 @@ SHELL	:= bash --rcfile ~/.bashrc
 #                                     NAMES                                    #
 #==============================================================================#
 
-NAME = app.py
+NAME = SlackBot
 VENV = .venv
 
 ### Message Vars
