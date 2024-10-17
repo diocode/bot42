@@ -53,7 +53,6 @@ def	warning_status(student_data):
 
 	if nbr_projs != 0:
 		student_project_avg /= nbr_projs
-	pprint(f"Student: {student_data['login']}, Week: {week}, Day: {day}")
 	match week:
 		case (1):
 			avg_project = "C Piscine C 01"

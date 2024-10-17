@@ -29,10 +29,16 @@ def get_piscine(message, say, client):
     month_caps = month.title()
 
     try:
-        say(
-            f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''}...",
-            thread_ts=message["ts"],
-        )
+        if len(words) == 5:
+            say(
+                f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''} (might take a few minutes)...",
+                thread_ts=message["ts"],
+            )
+        else:
+            say(
+                f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''}...",
+                thread_ts=message["ts"],
+          )
         # Attempt to get piscine data
         piscine_data = get_piscine_data(campus, year, month)
 
