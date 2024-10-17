@@ -1,5 +1,6 @@
 import os
 import logging
+from pprint import pprint
 from slack_bolt import App
 from app.api import get_piscine_data, get_student_data, get_student_location
 from app.printer import format_student_info
@@ -49,18 +50,21 @@ def get_piscine(message, say, client):
             return
         all_student_info = []
 
+        # print(f"=> {len(piscine_data)} students found")
         for student in piscine_data:
             username = student["login"]
             full_name = f"{student['first_name']} {student['last_name']}"
 
             # If filter is specified, check if the student has completed it
-            if filter:
-                if not any(p["slug"] == filter for p in student.get("projects", [])):
-                    continue
+            # if filter:
+            #     if not any(p["slug"] == filter for p in student.get("projects", [])):
+            #         continue
 
             # Check for warning status
+            print(f"=> {warning_status(student)}")
             if len(words) == 5 and words[4] == "warn":
-                if warning_status(student) == "🚩 (_possibly cheating_)":
+                print(f"=> {warning_status}")
+                if warning_status(student) == 1:
                     all_student_info.append((username, full_name))
             else:
                 all_student_info.append((username, full_name))

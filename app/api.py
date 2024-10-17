@@ -82,7 +82,7 @@ def get_piscine_data(campus, year, month):
                 response.raise_for_status()  # Raises an HTTPError for bad responses
                 data = response.json()
                 piscine_data.extend(data)
-                pprint(data)
+                # pprint(data)
                 if len(data) < params["page[size]"]:
                     break
                 page += 1
