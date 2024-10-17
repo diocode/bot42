@@ -51,12 +51,12 @@ def	warning_status(student_data):
 				student_project_avg += score
 				nbr_projs += 1
 
-	student_project_avg /= nbr_projs
-	
+	if nbr_projs != 0:
+		student_project_avg /= nbr_projs
+	pprint(f"Student: {student_data['login']}, Week: {week}, Day: {day}")
 	match week:
 		case (1):
 			avg_project = "C Piscine C 01"
-			pprint(f"Day: {day}")
 			if day in ["Saturday", "Sunday"]:
 				exam_avg = 26
 				student_exam_avg = progress_data["C Piscine Exam 00"]
