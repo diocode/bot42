@@ -21,15 +21,15 @@ def get_piscine(message, say, client):
         )
         return
 
-    command, campus, year, month, *project = words  # Extract parameters
-    project = project[0] if project else None  # Get project if provided
+    command, campus, year, month, *filter = words  # Extract parameters
+    filter = filter[0] if filter else None  # Get filter if provided
 
     campus_caps = campus.title()
     month_caps = month.title()
 
     try:
         say(
-            f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' for project ' + project if project else ''}...",
+            f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''}...",
             thread_ts=message["ts"],
         )
         # Attempt to get piscine data
@@ -53,9 +53,9 @@ def get_piscine(message, say, client):
             username = student["login"]
             full_name = f"{student['first_name']} {student['last_name']}"
 
-            # If project is specified, check if the student has completed it
-            if project:
-                if not any(p["slug"] == project for p in student.get("projects", [])):
+            # If filter is specified, check if the student has completed it
+            if filter:
+                if not any(p["slug"] == filter for p in student.get("projects", [])):
                     continue
 
             # Check for warning status
@@ -78,12 +78,12 @@ def get_piscine(message, say, client):
                 ]
             )
             say(
-                f"*Piscine {month_caps} {year} in {campus_caps}*{' for project ' + project if project else ''}:\n`{student_count}` students\n\n{student_info_text}",
+                f"*Piscine {month_caps} {year} in {campus_caps}*{' for filter ' + filter if filter else ''}:\n`{student_count}` students\n\n{student_info_text}",
                 thread_ts=message["ts"],
             )
         else:
             say(
-                f"No students found matching the criteria for Piscine {month_caps} {year} in {campus_caps}{' for project ' + project if project else ''}.",
+                f"No students found matching the criteria for Piscine {month_caps} {year} in {campus_caps}{' for filter ' + filter if filter else ''}.",
                 thread_ts=message["ts"],
             )
     except Exception as e:
