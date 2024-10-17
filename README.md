@@ -3,8 +3,6 @@
 ## Usage
 
 ```sh
-./build.sh
-
 # Create a .env file:
 export SLACK_BOT_TOKEN="your_token"
 export SLACK_APP_TOKEN="your_token"
@@ -18,6 +16,9 @@ source .venv/bin/activate
 source .env
 
 python3 app.py
+
+# Destroy local .venv
+make clean
 ```
 
 ## Python Docs
@@ -64,11 +65,12 @@ Note: After doing this sucessully, go to the bar on the rignt in postman and the
 ### BOT Features
 
 - Search For Pisciner's Progress
-- Get General Project Stats
-- Search student by computer ID
-- Get Exam Results
-
+- Get General Project Stats of a student : "_student <username>"
+- Search student by computer ID : "_locate <computer_id>"
+- Search computer by user ID : "_locate <user_ID>"
+- Get Piscine Users and Exam Results : "_piscine <campus> <year> <month>"
+- Print "warn" List : "_piscine <campus> <year> <month> warn"
+- Print "care" list (Needs testing on a real ongoing piscine) : "_piscine <campus> <year> <month> care"
 
 # TODO
 
-- Print warnings List
