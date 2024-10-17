@@ -38,10 +38,12 @@ def get_student_data(user):
         token = get_42_api_token()
         url = f"https://api.intra.42.fr/v2/users/{user}"
         headers = {"Authorization": f"Bearer {token}"}
-
+        params = {
+            "page[size]": 100,
+        }
         response = None
         try:
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()  # Raises an HTTPError for bad responses
             if response.status_code == 200:
                 return response.json()

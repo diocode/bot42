@@ -29,10 +29,16 @@ def get_piscine(message, say, client):
     month_caps = month.title()
 
     try:
-        say(
-            f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''}...",
-            thread_ts=message["ts"],
-        )
+        if len(words) == 5:
+            say(
+                f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''} (might take a few minutes)...",
+                thread_ts=message["ts"],
+            )
+        else:
+            say(
+                f"⌛ Getting Data for Piscine *{month_caps} {year}* in *{campus_caps}*{' filtered by ' + filter if filter else ''}...",
+                thread_ts=message["ts"],
+          )
         # Attempt to get piscine data
         piscine_data = get_piscine_data(campus, year, month)
 
@@ -50,21 +56,15 @@ def get_piscine(message, say, client):
             return
         all_student_info = []
 
-        # print(f"=> {len(piscine_data)} students found")
         for student in piscine_data:
             username = student["login"]
             full_name = f"{student['first_name']} {student['last_name']}"
 
-            # If filter is specified, check if the student has completed it
-            # if filter:
-            #     if not any(p["slug"] == filter for p in student.get("projects", [])):
-            #         continue
-
-            # Check for warning status
-            print(f"=> {warning_status(student)}")
             if len(words) == 5 and words[4] == "warn":
-                print(f"=> {warning_status}")
-                if warning_status(student) == 1:
+                if warning_status(get_student_data(username)) == 1:
+                    all_student_info.append((username, full_name))
+            elif len(words) == 5 and words[4] == "care":
+                if warning_status(get_student_data(username)) == 2:
                     all_student_info.append((username, full_name))
             else:
                 all_student_info.append((username, full_name))
