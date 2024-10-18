@@ -65,12 +65,12 @@ Note: After doing this sucessully, go to the bar on the rignt in postman and the
 ### BOT Features
 
 - Search For Pisciner's Progress
-- Get General Project Stats of a student : "_student <username>"
-- Search student by computer ID : "_locate <computer_id>"
-- Search computer by user ID : "_locate <user_ID>"
-- Get Piscine Users and Exam Results : "_piscine <campus> <year> <month>"
-- Print "warn" List : "_piscine <campus> <year> <month> warn"
-- Print "care" list (Needs testing on a real ongoing piscine) : "_piscine <campus> <year> <month> care"
+- Get General Project Stats of a student : `_student <username>`
+- Search student by computer ID : `_locate <computer_id>`
+- Search computer by user ID : `_locate <user_ID>`
+- Get Piscine Users and Exam Results : `_piscine <campus> <year> <month> [warn|care]`
+    - Print "warn" List : `_piscine <campus> <year> <month> warn`
+    - Print "care" list (Needs testing on a real ongoing piscine) : `_piscine <campus> <year> <month> care`
 
 # TODO
 
