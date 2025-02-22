@@ -18,11 +18,13 @@ The bot is configured with environment variables for authentication and leverage
 ### BOT FEATURES
 
 - 🔍 Search for Pisciner's Progress
-- 📊 Get general project stats of a student: **_student \<username\>**
-- 🔎 Search student by computer ID: **_locate \<computer_id\>**
-- 🖥️ Search computer by user ID: **_locate \<user_ID\>**
-- 🏆 Get Piscine users and exam results: **_piscine \<campus\> \<year\> \<month\>**
-- 📊 Evaluates if any pisciner needs help (care) or has given up (warn):  **_piscine \<campus\> \<year\> \<month\> \<warn/care\>**
+- 📊 Get general project stats of a student: `_student <username>`
+- 🔎 Search student by computer ID: `_locate <computer_id>`
+- 🖥️ Search computer by user ID: `_locate <user_ID>`
+- 🏆 Get Piscine users and exam results: `_piscine <campus> <year> <month>`
+- 📊 Evaluates if any pisciner needs help (care) or has given up (warn):
+
+  `_piscine <campus> <year> <month> <warn/care>`
 
 <br>
 
@@ -94,5 +96,5 @@ After doing this successfully, go to the bar on the rignt in postman and there's
 
 <br>
 
-This bot simplifies searching for 42 students and their progress through Slack, integrating seamlessly with the 42API. 🚀
+This bot simplifies searching for 42 students and their progress through Slack, integrating seamlessly with the 42API
 
